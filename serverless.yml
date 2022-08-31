@@ -1,4 +1,4 @@
-service: aws-node # NOTE: update this with your service name
+service: access-s3
 
 frameworkVersion: "3"
 
