@@ -5,7 +5,7 @@ const StringDecoder = require("string_decoder").StringDecoder;
 
 // refer to https://stackoverflow.com/questions/36942442/how-to-get-response-from-s3-getobject-in-node-js
 // thanks !
-const getObject = (Bucket, key) => {
+const getObject = (Bucket, Key) => {
   return new Promise(async (resolve, reject) => {
     const getObjectCommand = new GetObjectCommand({ Bucket, Key });
 
@@ -35,18 +35,18 @@ const getObject = (Bucket, key) => {
 };
 
 module.exports.access2s3 = async (event) => {
-  // const path = event.pathParameters.proxy;
+  const path = event.pathParameters.proxy;
 
-  const key = "sample.json";
+  const Key = `${path}.json`;
   const Bucket = process.env.BUCKET;
 
   try {
-    const data = await getObject(Bucket, key);
+    const data = await getObject(Bucket, Key);
     return {
       statusCode: 200,
       body: JSON.stringify(
         {
-          data,
+          data: JSON.parse(data),
         },
         null,
         2
