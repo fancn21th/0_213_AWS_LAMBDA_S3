@@ -1,0 +1,27 @@
+service: aws-node # NOTE: update this with your service name
+
+frameworkVersion: "3"
+
+custom:
+  bucket: fake-api-aug
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:GetObjectAcl
+      Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+
+functions:
+  access2s3:
+    handler: handler.access2s3
+    events:
+      - http:
+          path: /
+          method: get
+    environment:
+      BUCKET: ${self:custom.bucket}
+      REGION: ${aws:region}
