@@ -24,4 +24,3 @@ functions:
           method: get
     environment:
       BUCKET: ${self:custom.bucket}
-      REGION: ${aws:region}
